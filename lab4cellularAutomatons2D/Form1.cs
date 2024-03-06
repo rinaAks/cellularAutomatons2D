@@ -57,7 +57,6 @@ namespace lab4cellularAutomatons2D
             timer1.Start();
             
             
-            
         }
 
         void applyRule(int iGot, int jGot)
@@ -67,9 +66,12 @@ namespace lab4cellularAutomatons2D
             {
                 for (int j = jGot - 1; j < jGot + 2; j++)
                 {
-                    cells[i, j] = rule(iterN + 1)[iRule];
-                    //cells[i, j] = 2;
-                    iRule++;
+                    if (i >= 0 && j >= 0 && i < numberHorizontalCells && j < numberVerticalCells)
+                    {
+                        cells[i, j] = rule(iterN + 1)[iRule];
+                        //cells[i, j] = 2;
+                        iRule++;
+                    }
                 }
 
             }
@@ -115,8 +117,9 @@ namespace lab4cellularAutomatons2D
                     if (cells[i, j] == iterN)
                     {
                         applyRule(i, j);
-                        tbDebug.Text = tbDebug.Text + "i = " + i + ", ";
-                        tbDebug.Text = tbDebug.Text + "j = " + j + ", ";
+                        //tbDebug.Text = tbDebug.Text + "i = " + i + ", ";
+                        //tbDebug.Text = tbDebug.Text + "j = " + j + ", ";
+                        tbDebug.Text = "Generation number " + iterN;
                     }
                     //cells[i, j] = newCell((int)cells[i - 1, j - 1], (int)cells[i, j - 1], (int)cells[i + 1, j - 1]);
                 }
