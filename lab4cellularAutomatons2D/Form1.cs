@@ -16,6 +16,8 @@ namespace lab4cellularAutomatons2D
         const int numberHorizontalCells = 14;
         const int numberVerticalCells = 12;
 
+        MatrixGrid grid;
+
 
         int[] rule(int it)
         {
@@ -27,7 +29,7 @@ namespace lab4cellularAutomatons2D
             InitializeComponent();
             cells = new int[numberHorizontalCells, numberVerticalCells];
 
-            var grid = new MatrixGrid()
+            grid = new MatrixGrid()
             {
                 Parent = panel1,
                 Dock = DockStyle.Fill,
@@ -37,6 +39,8 @@ namespace lab4cellularAutomatons2D
             };
             grid.CellNeeded += grid_CellNeeded;
             grid.CellClick += grid_CellClick;
+
+            //grid.rep += grid_CellNeeded;
         }
 
         void grid_CellClick(object sender, MatrixGrid.CellClickEventArgs e)
@@ -75,6 +79,8 @@ namespace lab4cellularAutomatons2D
         */
         private void timer1_Tick(object sender, EventArgs e)
         {
+            grid.Refresh();
+            //grid.CellNeeded.Invoke(sender, (MatrixGrid.CellNeededEventArgs)e);
             newGeneration();
             tbDebug.Text = "Generation number " + iterN;
         }
