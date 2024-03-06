@@ -17,7 +17,11 @@ namespace lab4cellularAutomatons2D
         const int numberVerticalCells = 12;
 
 
-        int[] rule = { 0, 2, 0, 2, 0, 2, 0, 2, 0 };
+        int[] rule(int it)
+        {
+            int[] ruleReturn = { 0, it, 0, it, 0, it, 0, it, 0 };
+            return ruleReturn;
+        }
         public Form1()
         {
             InitializeComponent();
@@ -47,23 +51,13 @@ namespace lab4cellularAutomatons2D
 
         Random rnd = new Random();
 
+        int iterN = 1;
         private void btStart_Click(object sender, EventArgs e)
         {
-            for (int j = 1; j < numberVerticalCells; j++)
-            {
-                for (int i = 1; i < cells.GetLength(0) - 1; i++)
-                {
-                    //cells[i, j] = (byte)rnd.Next(0, 2);
-                    if(cells[i, j] == 1)
-                    {
-                        applyRule(i, j);
-                        tbDebug.Text = tbDebug.Text + "i = " + i + ", ";
-                        tbDebug.Text = tbDebug.Text + "j = " + j + ", ";
-                    }
-                    //cells[i, j] = newCell((int)cells[i - 1, j - 1], (int)cells[i, j - 1], (int)cells[i + 1, j - 1]);
-                }
-
-            }
+            timer1.Start();
+            
+            
+            
         }
 
         void applyRule(int iGot, int jGot)
@@ -73,32 +67,83 @@ namespace lab4cellularAutomatons2D
             {
                 for (int j = jGot - 1; j < jGot + 2; j++)
                 {
-                    cells[i, j] = rule[iRule];
+                    cells[i, j] = rule(iterN + 1)[iRule];
+                    //cells[i, j] = 2;
                     iRule++;
                 }
 
             }
         }
         /*
-        int newCell(int left, int middle, int right)
+        private void timer1_Tick(object sender, EventArgs e)
         {
-            int iRule = binaryRule.Length - 1;
-            for (int i = 0; i < 3; i++)
+            int timerI = 1, timerJ = 1;
+            if(timerI < cells.GetLength(0) - 1 && timerJ < numberVerticalCells)
             {
-                for (int j = 0; j < 3; j++)
+                if (cells[timerI, timerJ] == 1)
                 {
-                    for (int k = 0; k < 3; k++)
-                    {
-                        if (left == i && middle == j && right == k)
-                        {
-                            return (int)(binaryRule[iRule] - '0');
-                        }
-                        iRule = iRule - 1;
-                    }
+                    applyRule(timerI, timerJ);
+                    tbDebug.Text = tbDebug.Text + "i = " + timerI + ", ";
+                    tbDebug.Text = tbDebug.Text + "j = " + timerJ + ", ";
                 }
+                timerI++; timerJ++;
             }
-            return 0;
+            else
+            {
+                timer1.Stop();
+            }
+
         }*/
+
+        private void btStop_Click(object sender, EventArgs e)
+        {
+            timer1.Stop();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            newGeneration();
+        }
+
+        void newGeneration()
+        {
+            for (int j = 1; j < numberVerticalCells; j++)
+            {
+                for (int i = 1; i < cells.GetLength(0) - 1; i++)
+                {
+                    //cells[i, j] = (byte)rnd.Next(0, 2);
+                    if (cells[i, j] == iterN)
+                    {
+                        applyRule(i, j);
+                        tbDebug.Text = tbDebug.Text + "i = " + i + ", ";
+                        tbDebug.Text = tbDebug.Text + "j = " + j + ", ";
+                    }
+                    //cells[i, j] = newCell((int)cells[i - 1, j - 1], (int)cells[i, j - 1], (int)cells[i + 1, j - 1]);
+                }
+
+            }
+            iterN++;
+        }
+        /*
+int newCell(int left, int middle, int right)
+{
+int iRule = binaryRule.Length - 1;
+for (int i = 0; i < 3; i++)
+{
+for (int j = 0; j < 3; j++)
+{
+for (int k = 0; k < 3; k++)
+{
+if (left == i && middle == j && right == k)
+{
+ return (int)(binaryRule[iRule] - '0');
+}
+iRule = iRule - 1;
+}
+}
+}
+return 0;
+}*/
         /*
 private void btRandom_Click(object sender, EventArgs e)
 {

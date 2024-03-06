@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btStart = new System.Windows.Forms.Button();
             this.btStop = new System.Windows.Forms.Button();
             this.tbDebug = new System.Windows.Forms.TextBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // panel1
@@ -61,6 +63,7 @@
             this.btStop.TabIndex = 2;
             this.btStop.Text = "Стоп";
             this.btStop.UseVisualStyleBackColor = true;
+            this.btStop.Click += new System.EventHandler(this.btStop_Click);
             // 
             // tbDebug
             // 
@@ -68,6 +71,11 @@
             this.tbDebug.Name = "tbDebug";
             this.tbDebug.Size = new System.Drawing.Size(180, 22);
             this.tbDebug.TabIndex = 3;
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Form1
             // 
@@ -91,6 +99,7 @@
         private System.Windows.Forms.Button btStart;
         private System.Windows.Forms.Button btStop;
         private System.Windows.Forms.TextBox tbDebug;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 
