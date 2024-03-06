@@ -55,10 +55,8 @@ namespace lab4cellularAutomatons2D
         private void btStart_Click(object sender, EventArgs e)
         {
             timer1.Start();
-            
-            
         }
-
+        /*
         void applyRule(int iGot, int jGot)
         {
             int iRule = 0;
@@ -69,135 +67,83 @@ namespace lab4cellularAutomatons2D
                     if (i >= 0 && j >= 0 && i < numberHorizontalCells && j < numberVerticalCells)
                     {
                         cells[i, j] = rule(iterN + 1)[iRule];
-                        //cells[i, j] = 2;
                         iRule++;
                     }
                 }
-
             }
         }
-        /*
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            int timerI = 1, timerJ = 1;
-            if(timerI < cells.GetLength(0) - 1 && timerJ < numberVerticalCells)
-            {
-                if (cells[timerI, timerJ] == 1)
-                {
-                    applyRule(timerI, timerJ);
-                    tbDebug.Text = tbDebug.Text + "i = " + timerI + ", ";
-                    tbDebug.Text = tbDebug.Text + "j = " + timerJ + ", ";
-                }
-                timerI++; timerJ++;
-            }
-            else
-            {
-                timer1.Stop();
-            }
-
-        }*/
-
-        private void btStop_Click(object sender, EventArgs e)
-        {
-            timer1.Stop();
-        }
-
+        */
         private void timer1_Tick(object sender, EventArgs e)
         {
             newGeneration();
+            tbDebug.Text = "Generation number " + iterN;
         }
 
         void newGeneration()
         {
-            for (int j = 1; j < numberVerticalCells; j++)
+            int neighbours;
+            for (int j = 0; j < numberVerticalCells; j++)
             {
-                for (int i = 1; i < cells.GetLength(0) - 1; i++)
+                for (int i = 0; i < cells.GetLength(0); i++)
                 {
-                    //cells[i, j] = (byte)rnd.Next(0, 2);
+                    neighbours = neighboursCount(i, j);
+                    //tbDebug.Text = "neigbours: " + neighbours;
+                    if (cells[i, j] == iterN && neighbours < 2) cells[i, j] = 0; //смерть
+                    else if (cells[i, j] == iterN && neighbours == 2) cells[i, j] = iterN + 1;
+                    else if (cells[i, j] == iterN && neighbours == 3)
+                    {
+                        cells[i, j] = iterN + 1;
+                        if(i - 1 >= 0) cells[i - 1, j] = iterN + 1;
+                    }
+                    else if (cells[i, j] == iterN && neighbours > 3) cells[i, j] = 0; //смерть
+                    else if (cells[i, j] == 0 && neighbours == 3) cells[i, j] = iterN + 1;
+                    else if (cells[i, j] == iterN) cells[i, j] = iterN + 1;
+
+                    /*
                     if (cells[i, j] == iterN)
                     {
-                        applyRule(i, j);
+                        //applyRule(i, j);
                         //tbDebug.Text = tbDebug.Text + "i = " + i + ", ";
                         //tbDebug.Text = tbDebug.Text + "j = " + j + ", ";
-                        tbDebug.Text = "Generation number " + iterN;
                     }
-                    //cells[i, j] = newCell((int)cells[i - 1, j - 1], (int)cells[i, j - 1], (int)cells[i + 1, j - 1]);
+                    */
                 }
 
             }
             iterN++;
         }
-        /*
-int newCell(int left, int middle, int right)
-{
-int iRule = binaryRule.Length - 1;
-for (int i = 0; i < 3; i++)
-{
-for (int j = 0; j < 3; j++)
-{
-for (int k = 0; k < 3; k++)
-{
-if (left == i && middle == j && right == k)
-{
- return (int)(binaryRule[iRule] - '0');
-}
-iRule = iRule - 1;
-}
-}
-}
-return 0;
-}*/
-        /*
-private void btRandom_Click(object sender, EventArgs e)
-{
-   for (int i = 0; i < cells.GetLength(0); i++)
-       cells[i, 0] = rnd.Next(0, 2);
+        int neighboursCount(int iGot, int jGot)
+        {
+            int neighb = 0;
+            for (int i = iGot - 1; i < iGot + 2; i++)
+            {
+                for (int j = jGot - 1; j < jGot + 2; j++)
+                {
+                    if (i >= 0 && j >= 0 && i < numberHorizontalCells && j < numberVerticalCells && (i!=iGot || j!=jGot))
+                    {
+                        if(cells[i, j] > 0) neighb++;
+                    }
+                }
+            }
 
-   Invalidate(true);
-}
-int rule;
-string binaryRule;
-private void btStart_Click(object sender, EventArgs e)
-{
-   rule = (int)edRule.Value;
-   binaryRule = Convert.ToString(rule, 2);
-   //binaryRule = IntToBinaryString(rule);
+            return neighb;
+        }
+        private void btStop_Click(object sender, EventArgs e)
+        {
+            timer1.Stop();
+        }
 
-   if (binaryRule.Length < 8) binaryRule = string.Concat(Enumerable.Repeat("0", (8 - binaryRule.Length))) + binaryRule;
-   if (binaryRule.Length == 4) binaryRule = "0000" + binaryRule;
-   //cells[1, 3] = 1;
-   
-   tbOutput.Text = "rule: " + binaryRule;
-
-}
-
-
-
-public string IntToBinaryString(int number)
-{
-   const int mask = 1;
-   var binary = string.Empty;
-   while (number > 0)
-   {
-       // Logical AND the number and prepend it to the result string
-       binary = (number & mask) + binary;
-       number = number >> 1;
-   }
-
-   return binary;
-}
-
-private void btClear_Click(object sender, EventArgs e)
-{
-   for (int i = 0; i < cells.GetLength(0); i++)
-   {
-       for (int j = 0; j < cells.GetLength(1); j++)
-       {
-           cells[i, j] = 0;
-       }
-   }
-
-}
-*/
+        private void btClear_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < cells.GetLength(0); i++)
+            {
+                for (int j = 0; j < cells.GetLength(1); j++)
+                {
+                    cells[i, j] = 0;
+                }
+            }
+            iterN = 1;
+            tbDebug.Text = "Generation number " + iterN;
+        }
     }
 }

@@ -34,6 +34,7 @@
             this.btStop = new System.Windows.Forms.Button();
             this.tbDebug = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.btClear = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // panel1
@@ -77,11 +78,23 @@
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // btClear
+            // 
+            this.btClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btClear.Location = new System.Drawing.Point(49, 317);
+            this.btClear.Name = "btClear";
+            this.btClear.Size = new System.Drawing.Size(139, 40);
+            this.btClear.TabIndex = 0;
+            this.btClear.Text = "Очистить";
+            this.btClear.UseVisualStyleBackColor = true;
+            this.btClear.Click += new System.EventHandler(this.btClear_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btClear);
             this.Controls.Add(this.tbDebug);
             this.Controls.Add(this.btStop);
             this.Controls.Add(this.btStart);
@@ -100,6 +113,7 @@
         private System.Windows.Forms.Button btStop;
         private System.Windows.Forms.TextBox tbDebug;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Button btClear;
     }
 }
 
